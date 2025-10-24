@@ -15,11 +15,10 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000', 'http://127.0.0.1:3001'],
-  credentials: true,
+  origin: "*",
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
+
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
