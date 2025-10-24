@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const API_BASE = 'https://webstories-app-main.onrender.com/stories'; // Updated base URL
+
 const StoryForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -18,15 +20,13 @@ const StoryForm = () => {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (isEditing) {
-      fetchStory();
-    }
+    if (isEditing) fetchStory();
   }, [id]);
 
   const fetchStory = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`https://webstories-app-main.onrender.com/${id}`);
+      const response = await axios.get(`${API_BASE}/${id}`);
       setFormData(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -38,10 +38,7 @@ const StoryForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const addSlide = () => {
@@ -49,13 +46,7 @@ const StoryForm = () => {
       ...prev,
       slides: [
         ...prev.slides,
-        {
-          type: 'image',
-          url: '',
-          duration: 5000,
-          animation: 'fade',
-          order: prev.slides.length
-        }
+        { type: 'image', url: '', duration: 5000, animation: 'fade', order: prev.slides.length }
       ]
     }));
   };
@@ -63,14 +54,8 @@ const StoryForm = () => {
   const updateSlide = (index, field, value) => {
     setFormData(prev => {
       const updatedSlides = [...prev.slides];
-      updatedSlides[index] = {
-        ...updatedSlides[index],
-        [field]: value
-      };
-      return {
-        ...prev,
-        slides: updatedSlides
-      };
+      updatedSlides[index][field] = value;
+      return { ...prev, slides: updatedSlides };
     });
   };
 
@@ -84,12 +69,11 @@ const StoryForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
-
     try {
       if (isEditing) {
-        await axios.put(`https://webstories-app-main.onrender.com/${id}`, formData);
+        await axios.put(`${API_BASE}/${id}`, formData);
       } else {
-        await axios.post('https://webstories-app-main.onrender.com', formData);
+        await axios.post(API_BASE, formData);
       }
       navigate('/');
     } catch (error) {
@@ -100,59 +84,35 @@ const StoryForm = () => {
     }
   };
 
-  if (loading) {
-    return <div className="container loading">Loading story...</div>;
-  }
+  if (loading) return <div className="container loading">Loading story...</div>;
 
   return (
     <div className="container">
       <h1>{isEditing ? 'Edit Story' : 'Create New Story'}</h1>
-      
       <form onSubmit={handleSubmit} className="form-container">
+        {/* Title */}
         <div className="form-group">
           <label>Title *</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            className="form-control"
-            placeholder="Enter story title"
-            required
-          />
+          <input type="text" name="title" value={formData.title} onChange={handleInputChange} className="form-control" placeholder="Enter story title" required />
         </div>
 
+        {/* Category */}
         <div className="form-group">
           <label>Category *</label>
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleInputChange}
-            className="form-control"
-            placeholder="e.g., Technology, Travel, Food"
-            required
-          />
+          <input type="text" name="category" value={formData.category} onChange={handleInputChange} className="form-control" placeholder="e.g., Technology, Travel, Food" required />
         </div>
 
+        {/* Description */}
         <div className="form-group">
           <label>Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            className="form-control"
-            placeholder="Optional story description"
-            rows="3"
-          />
+          <textarea name="description" value={formData.description} onChange={handleInputChange} className="form-control" placeholder="Optional story description" rows="3" />
         </div>
 
+        {/* Slides */}
         <div className="form-group">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
             <label>Slides *</label>
-            <button type="button" onClick={addSlide} className="btn btn-success">
-              Add Slide
-            </button>
+            <button type="button" onClick={addSlide} className="btn btn-success">Add Slide</button>
           </div>
 
           {formData.slides.length === 0 ? (
@@ -164,64 +124,27 @@ const StoryForm = () => {
               <div key={index} className="slide-item">
                 <div className="slide-header">
                   <h4>Slide {index + 1}</h4>
-                  <button
-                    type="button"
-                    onClick={() => removeSlide(index)}
-                    className="btn btn-danger"
-                  >
-                    Remove
-                  </button>
+                  <button type="button" onClick={() => removeSlide(index)} className="btn btn-danger">Remove</button>
                 </div>
-
                 <div className="form-group">
                   <label>Media Type</label>
-                  <select
-                    value={slide.type}
-                    onChange={(e) => updateSlide(index, 'type', e.target.value)}
-                    className="form-control"
-                  >
+                  <select value={slide.type} onChange={(e) => updateSlide(index, 'type', e.target.value)} className="form-control">
                     <option value="image">Image</option>
                     <option value="video">Video</option>
                   </select>
                 </div>
-
                 <div className="form-group">
                   <label>Media URL *</label>
-                  <input
-                    type="url"
-                    value={slide.url}
-                    onChange={(e) => updateSlide(index, 'url', e.target.value)}
-                    className="form-control"
-                    placeholder="https://example.com/image.jpg"
-                    required
-                  />
-                  <small style={{ color: '#666' }}>
-                    Use high-quality images (400x800 recommended)
-                  </small>
+                  <input type="url" value={slide.url} onChange={(e) => updateSlide(index, 'url', e.target.value)} className="form-control" placeholder="https://example.com/image.jpg" required />
+                  <small style={{ color: '#666' }}>Use high-quality images (400x800 recommended)</small>
                 </div>
-
                 <div className="form-group">
-                  <label>Duration (milliseconds)</label>
-                  <input
-                    type="number"
-                    value={slide.duration}
-                    onChange={(e) => updateSlide(index, 'duration', parseInt(e.target.value))}
-                    className="form-control"
-                    min="1000"
-                    step="1000"
-                  />
-                  <small style={{ color: '#666' }}>
-                    How long this slide should be displayed (default: 5000ms = 5 seconds)
-                  </small>
+                  <label>Duration (ms)</label>
+                  <input type="number" value={slide.duration} onChange={(e) => updateSlide(index, 'duration', parseInt(e.target.value))} className="form-control" min="1000" step="1000" />
                 </div>
-
                 <div className="form-group">
                   <label>Animation</label>
-                  <select
-                    value={slide.animation}
-                    onChange={(e) => updateSlide(index, 'animation', e.target.value)}
-                    className="form-control"
-                  >
+                  <select value={slide.animation} onChange={(e) => updateSlide(index, 'animation', e.target.value)} className="form-control">
                     <option value="fade">Fade</option>
                     <option value="slide">Slide</option>
                     <option value="zoom">Zoom</option>
@@ -233,22 +156,12 @@ const StoryForm = () => {
           )}
         </div>
 
+        {/* Buttons */}
         <div className="actions">
-          <button
-            type="submit"
-            disabled={saving || formData.slides.length === 0}
-            className="btn btn-primary"
-          >
+          <button type="submit" disabled={saving || formData.slides.length === 0} className="btn btn-primary">
             {saving ? 'Saving...' : (isEditing ? 'Update Story' : 'Create Story')}
           </button>
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-            className="btn"
-            style={{ marginLeft: '10px', background: '#6c757d', color: 'white' }}
-          >
-            Cancel
-          </button>
+          <button type="button" onClick={() => navigate('/')} className="btn" style={{ marginLeft: '10px', background: '#6c757d', color: 'white' }}>Cancel</button>
         </div>
       </form>
     </div>
