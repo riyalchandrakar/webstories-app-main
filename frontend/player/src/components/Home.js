@@ -73,18 +73,18 @@ const Home = () => {
           <h3>No stories available</h3>
           <p>Stories will appear here once they are created in the CMS.</p>
           <p>
-            <small>
+            <strong>
               Visit{' '}
               <a 
                 href="https://webstories-app-main-1.onrender.com/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                style={{ color: '#3498db' }}
+                style={{ color: '#3498db', textDecoration: 'underline', fontWeight: 'bold' }}
               >
                 CMS Dashboard
               </a>{' '}
               to create stories
-            </small>
+            </strong>
           </p>
         </div>
       ) : (
