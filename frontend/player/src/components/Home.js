@@ -58,12 +58,28 @@ const Home = () => {
         Web Stories
       </h1>
 
-      <p style={{ color: '#888', textAlign: 'center', marginBottom: '30px' }}>
+      <p style={{ color: '#888', textAlign: 'center', marginBottom: '10px' }}>
         Tap on any story to start watching
       </p>
 
+      {/* CMS Link: Always visible */}
+      <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <small>
+          Visit{' '}
+          <a
+            href="https://webstories-app-main-1.onrender.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#3498db' }}
+          >
+            CMS Dashboard
+          </a>{' '}
+          to create or manage stories
+        </small>
+      </div>
+
       {error && (
-        <div className="error">
+        <div className="error" style={{ textAlign: 'center', color: 'red', marginBottom: '15px' }}>
           {error}
         </div>
       )}
@@ -72,20 +88,6 @@ const Home = () => {
         <div style={{ textAlign: 'center', color: '#666', padding: '50px' }}>
           <h3>No stories available</h3>
           <p>Stories will appear here once they are created in the CMS.</p>
-          <p>
-            <strong>
-              Visit{' '}
-              <a 
-                href="https://webstories-app-main-1.onrender.com/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{ color: '#3498db', textDecoration: 'underline', fontWeight: 'bold' }}
-              >
-                CMS Dashboard
-              </a>{' '}
-              to create stories
-            </strong>
-          </p>
         </div>
       ) : (
         <div className="categories-grid">
