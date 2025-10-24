@@ -15,7 +15,7 @@ const Home = () => {
   const fetchStories = async () => {
     try {
       console.log('📡 Player: Fetching stories...');
-      const response = await axios.get('http://localhost:5000/api/stories');
+      const response = await axios.get('https://webstories-app-main.onrender.com');
       console.log('✅ Player: Stories received:', response.data);
       setStories(response.data.data || []);
       setLoading(false);

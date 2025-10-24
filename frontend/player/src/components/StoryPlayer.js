@@ -15,7 +15,7 @@ const StoryPlayer = () => {
 
   const fetchStory = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/stories/${id}`);
+      const response = await axios.get(`https://webstories-app-main.onrender.com/${id}`);
       setStory(response.data.data);
       setLoading(false);
     } catch (error) {

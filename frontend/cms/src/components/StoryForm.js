@@ -26,7 +26,7 @@ const StoryForm = () => {
   const fetchStory = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/api/stories/${id}`);
+      const response = await axios.get(`https://webstories-app-main.onrender.com/${id}`);
       setFormData(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -87,9 +87,9 @@ const StoryForm = () => {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/stories/${id}`, formData);
+        await axios.put(`https://webstories-app-main.onrender.com/${id}`, formData);
       } else {
-        await axios.post('http://localhost:5000/api/stories', formData);
+        await axios.post('https://webstories-app-main.onrender.com', formData);
       }
       navigate('/');
     } catch (error) {

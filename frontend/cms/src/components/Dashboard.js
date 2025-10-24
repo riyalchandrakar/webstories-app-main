@@ -14,7 +14,7 @@ const Dashboard = () => {
   const fetchStories = async () => {
     try {
       console.log('📡 Fetching stories from API...');
-      const response = await axios.get('http://localhost:5000/api/stories');
+      const response = await axios.get('https://webstories-app-main.onrender.com');
       console.log('✅ Stories received:', response.data);
       setStories(response.data.data || []);
       setLoading(false);
@@ -87,7 +87,7 @@ const Dashboard = () => {
       ];
 
       for (const story of testStories) {
-        await axios.post('http://localhost:5000/api/stories', story);
+        await axios.post('https://webstories-app-main.onrender.com', story);
         console.log('✅ Created story:', story.title);
       }
       
@@ -102,7 +102,7 @@ const Dashboard = () => {
   const deleteStory = async (id) => {
     if (window.confirm('Are you sure you want to delete this story?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/stories/${id}`);
+        await axios.delete(`https://webstories-app-main.onrender.com/${id}`);
         fetchStories();
       } catch (error) {
         console.error('Error deleting story:', error);
