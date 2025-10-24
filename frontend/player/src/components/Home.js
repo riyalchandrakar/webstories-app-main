@@ -12,21 +12,20 @@ const Home = () => {
     fetchStories();
   }, []);
 
- const fetchStories = async () => {
-  try {
-    console.log('📡 Player: Fetching stories...');
-    const response = await axios.get('https://webstories-app-main.onrender.com/api/stories');
-    console.log('✅ Player: Stories received:', response.data);
-    setStories(response.data.data || []);
-    setLoading(false);
-    setError('');
-  } catch (error) {
-    console.error('❌ Player: Error fetching stories:', error);
-    setError('Failed to load stories. Make sure the backend server is running.');
-    setLoading(false);
-  }
-};
-
+  const fetchStories = async () => {
+    try {
+      console.log('📡 Player: Fetching stories...');
+      const response = await axios.get('https://webstories-app-main.onrender.com/api/stories');
+      console.log('✅ Player: Stories received:', response.data);
+      setStories(response.data.data || []);
+      setLoading(false);
+      setError('');
+    } catch (error) {
+      console.error('❌ Player: Error fetching stories:', error);
+      setError('Failed to load stories. Make sure the backend server is running.');
+      setLoading(false);
+    }
+  };
 
   const openStory = (storyId) => {
     navigate(`/story/${storyId}`);
@@ -58,7 +57,7 @@ const Home = () => {
       <h1 style={{ color: 'white', marginBottom: '10px', textAlign: 'center' }}>
         Web Stories
       </h1>
-      
+
       <p style={{ color: '#888', textAlign: 'center', marginBottom: '30px' }}>
         Tap on any story to start watching
       </p>
@@ -75,7 +74,16 @@ const Home = () => {
           <p>Stories will appear here once they are created in the CMS.</p>
           <p>
             <small>
-              Visit <a href="https://webstories-app-main-1.onrender.com/" style={{ color: '#3498db' }}>CMS Dashboard</a> to create stories
+              Visit{' '}
+              <a 
+                href="https://webstories-app-main-1.onrender.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ color: '#3498db' }}
+              >
+                CMS Dashboard
+              </a>{' '}
+              to create stories
             </small>
           </p>
         </div>
