@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_BASE = 'https://webstories-app-main.onrender.com/stories'; // Updated base URL
+const API_BASE = 'https://webstories-app-main.onrender.com/api/stories';
 
 const StoryForm = () => {
   const { id } = useParams();

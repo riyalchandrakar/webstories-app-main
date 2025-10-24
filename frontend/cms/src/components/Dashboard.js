@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const API_BASE = 'https://webstories-app-main.onrender.com/stories'; // Backend base endpoint
+const API_BASE = 'https://webstories-app-main.onrender.com/api/stories';
 
 const Dashboard = () => {
   const [stories, setStories] = useState([]);
